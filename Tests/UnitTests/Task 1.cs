@@ -40,22 +40,43 @@ namespace UnitTests
                 .ToList(); // convert to list. 
 
         }
+        /**
+         * Given corresponding database tables TravelAgent and Observation, both with a TravelAgent field being the primary and foreign key, respectively:
+
+            c) Write a SQL query that finds all travel agents that does not have any observations.
+
+            SELECT * FROM TravelAgent ...
+
+            
+
+         */
         [TestMethod]
         public void Task_c_SQL()
         {
             List<InvoiceGroup> invoiceGroups = new List<InvoiceGroup>();
+            //Using left join to adhere TravelAgent table to Observation table
+            string sqlQuery = "" +
+                "SELECT TravelAgent.* " +
+                "FROM TravelAgent " +
+                "LEFT JOIN Observation ON TravelAgent.TravelAgent = Observation.TravelAgent " +
+                "WHERE Observation.TravelAgent IS NULL"; // This assumes the field is nullable, and not just set to 0 or empty string.
+                //If that is the case
+                //"WHERE Observation.TravelAgent = 0" Instead.
 
-            IEnumerable<TravelAgentInfo> numberOfNightsByTravelAgent =
-                invoiceGroups.Where(igs => igs.IssueDate.Year == 2015) //Get invoice groups issued in 2015
-                .SelectMany(igs => igs.Invoices.SelectMany(i => i.Observations))
-                .GroupBy(observation => observation.TravelAgent)// Flatten the list of observations
-                .Select(group => new TravelAgentInfo // select the travel agent and total number of nights
-                {
-                    TravelAgent = group.Key,
-                    TotalNumberOfNights = group.Sum(observation => observation.NumberOfNights)
-                })
-                .ToList(); // convert to list. 
+        }
 
+        //d) Write a SQL query that finds all travel agents that have more than two observations.
+    [TestMethod]
+        public void Task_d_SQL()
+        {
+            List<InvoiceGroup> invoiceGroups = new List<InvoiceGroup>();
+            //Using left join to adhere TravelAgent table to Observation table
+            string sqlQuery = "" +
+               "SELECT TravelAgent.* " + //Select all travel agents only. * could have been replaced with TravelAgent.TravelAgent
+               "FROM TravelAgent " + // Table to look at
+               "JOIN Observation ON TravelAgent.TravelAgent = Observation.TravelAgent " + //Join the observation table to the travel agent table as union
+               "GROUP BY TravelAgent.TravelAgent " + // group them by the travelagent field
+               "HAVING COUNT(Observation.TravelAgent) > 2"; // HAVING filters based on the return of the COUNT portion.
         }
     }
 }
