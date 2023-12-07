@@ -1,14 +1,15 @@
 using Shared.Common.Models;
-namespace UnitTests
+
+namespace UnitTests_And_Answers
 {
-    [TestClass]
-    public class Task_1_Answer_Class
+    public class Task_1
     {
+              
         /// <summary>
         /// a) Create a LINQ expression for all guest names that occur on more than once
         /// (across all invoice groups and invoices, not per invoice group or invoice).
         /// </summary>
-        [TestMethod]
+        
         public void Task_a_LINQ()
         {
             List<InvoiceGroup> invoiceGroups = new List<InvoiceGroup>();
@@ -23,7 +24,6 @@ namespace UnitTests
         /// <summary>
         /// b) Create a LINQ expression for the total number of nights per travel agent for invoice groups issued in 2015.
         /// </summary>
-        [TestMethod]
         public void Task_b_LINQ()
         {
             List<InvoiceGroup> invoiceGroups = new List<InvoiceGroup>();
@@ -47,7 +47,6 @@ namespace UnitTests
 
             SELECT * FROM TravelAgent 
          */
-        [TestMethod]
         public void Task_c_SQL()
         {
             List<InvoiceGroup> invoiceGroups = new List<InvoiceGroup>();
@@ -57,13 +56,12 @@ namespace UnitTests
                 "FROM TravelAgent " +
                 "LEFT JOIN Observation ON TravelAgent.TravelAgent = Observation.TravelAgent " +
                 "WHERE Observation.TravelAgent IS NULL"; // This assumes the field is nullable, and not just set to 0 or empty string.
-                //If that is the case
-                //"WHERE Observation.TravelAgent = 0" Instead.
+                                                         //If that is the case
+                                                         //"WHERE Observation.TravelAgent = 0" Instead.
 
         }
 
         //d) Write a SQL query that finds all travel agents that have more than two observations.
-    [TestMethod]
         public void Task_d_SQL()
         {
             List<InvoiceGroup> invoiceGroups = new List<InvoiceGroup>();
