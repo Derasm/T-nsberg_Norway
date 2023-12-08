@@ -1,7 +1,7 @@
 ﻿using CheckVatService;
 using Moq;
-using Shared.Common.Models;
 using Common.Models.Services;
+using Common;
 
 
 namespace UnitTests_And_Answers

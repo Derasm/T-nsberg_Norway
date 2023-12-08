@@ -1,3 +1,22 @@
+# Project structure
+Tests / UnitTests
+- contains answers to task 1, 2, and 3.
+Shared library:
+- Has the logger and the models, as well as the Vat Verifier functionality, as the service reference to the WSDL VAT endpoint is also here.
+Application
+- Has the API code. It is a simple API with a single controller, and a single method. It takes a VAT ID and a country code, and returns a VatVerificationStatus value indicating if the VAT ID is valid or not.
+
+Considerations:
+- Attempted to keep dependencies low by using interfaces in the projects, and using dependency injection to inject the dependencies.
+- Took inspiration from CLEAN architecture regarding how things are structured.
+  - Presentation is not connected to anything
+  - Application would have known about domain, if there was one. 
+  - Shared Library acts as a single source of truth, and is the only project that knows about the service reference.
+  - Tests are in a separate project, and are not connected to anything, except the shared library.
+
+- LINQ was tested on mock data and found to return correct information
+- SQL was likewise tested on mock data and found to return correct information.
+
 # Developer assignment 1 - Tønsberg
 
 During the recruitment process we want the candidates to solve a few development tasks. We use these tasks in our interviews to assess the candidate's ability to solve relevant problems. These solutions will be discussed during the interview process, giving the candidate the opportunity to demonstrate her or his skill level.

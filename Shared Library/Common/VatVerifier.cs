@@ -1,7 +1,7 @@
 using CheckVatService;
 using Common.Models.Services;
 using System.Text.RegularExpressions;
-namespace Shared.Common.Models
+namespace Common
 {
     public enum VatVerificationStatus
     {
@@ -58,7 +58,7 @@ namespace Shared.Common.Models
         /// <param name="vatId"></param>
         /// <returns>Verification status</returns>
         // TODO: Implement Verify method
-        public VatVerificationStatus Verify( VatIdentifierRequest request)
+        public VatVerificationStatus Verify(VatIdentifierRequest request)
         {
             //first we verify the input adheres to the requirements.
             string countryCodePattern = @"[A-Z]{2}";

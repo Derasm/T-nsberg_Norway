@@ -1,6 +1,6 @@
-﻿using Common.Models.Services;
+﻿using Common;
+using Common.Models.Services;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Common.Models;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
