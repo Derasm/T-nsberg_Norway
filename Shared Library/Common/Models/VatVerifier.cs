@@ -1,8 +1,9 @@
 using CheckVatService;
+using Common.Models.Services;
 using System.Text.RegularExpressions;
 namespace Shared.Common.Models
 {
-    public enum VerificationStatus
+    public enum VatVerificationStatus
     {
         Valid,
         Invalid,
@@ -12,7 +13,7 @@ namespace Shared.Common.Models
     //In case we want to expand to different vat verifiers
     public interface IVatVerifier
     {
-        VerificationStatus Verify(string countryCode, string vatId);
+        VatVerificationStatus Verify(VatIdentifierRequest request);
     }
     //This makes testing in isolation much easier, as the client suddenly isn't important.
     public interface ICheckVatServiceClient
@@ -57,33 +58,33 @@ namespace Shared.Common.Models
         /// <param name="vatId"></param>
         /// <returns>Verification status</returns>
         // TODO: Implement Verify method
-        public VerificationStatus Verify(string countryCode, string vatId)
+        public VatVerificationStatus Verify( VatIdentifierRequest request)
         {
             //first we verify the input adheres to the requirements.
             string countryCodePattern = @"[A-Z]{2}";
             string vatIDPattern = @"[0-9A-Za-z\+\*\.]{2,12}";
-            Match countryCodeIsValid = Regex.Match(countryCode, countryCodePattern);
+            Match countryCodeIsValid = Regex.Match(request.CountryCode, countryCodePattern);
             if (!countryCodeIsValid.Success)
             {
-                return VerificationStatus.Invalid;
+                return VatVerificationStatus.Invalid;
             }
-            Match vatIDIsValid = Regex.Match(vatId, vatIDPattern);
+            Match vatIDIsValid = Regex.Match(request.VatID, vatIDPattern);
             if (!vatIDIsValid.Success)
             {
-                return VerificationStatus.Invalid;
+                return VatVerificationStatus.Invalid;
             }
             //We need to make a request and get a response. We have the objects in the SOAP configuration.
             checkVatRequest vatRequest = new checkVatRequest()
             {
-                countryCode = countryCode,
-                vatNumber = vatId,
+                countryCode = request.CountryCode,
+                vatNumber = request.VatID,
             };
             try
             {
                 var response = _client.checkVatAsync(vatRequest);
                 if (!response.valid)
                 {
-                    return VerificationStatus.Invalid;
+                    return VatVerificationStatus.Invalid;
                 }
             }
             catch (Exception)
@@ -94,7 +95,7 @@ namespace Shared.Common.Models
 
             //dispose client to free resources.
             _client.Dispose();
-            return VerificationStatus.Valid;
+            return VatVerificationStatus.Valid;
         }
     }
 }

@@ -25,4 +25,8 @@
     <Folder Include="Connected Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared Library\Common\Common.csproj" />
+  </ItemGroup>
+
 </Project>

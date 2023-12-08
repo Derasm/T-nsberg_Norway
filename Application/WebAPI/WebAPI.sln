@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "..\..\Presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{254C6E1F-8B35-4CE0-A7FD-8F94146C789F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests_And_Answers", "..\..\Tests\UnitTests_And_Answers\UnitTests_And_Answers.csproj", "{2F4526FE-1EE6-4144-8317-B0D93C8AAD29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests_And_Answers", "..\..\Tests\UnitTests_And_Answers\UnitTests_And_Answers.csproj", "{2F4526FE-1EE6-4144-8317-B0D93C8AAD29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

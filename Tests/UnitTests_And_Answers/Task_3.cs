@@ -1,6 +1,7 @@
 ﻿using CheckVatService;
 using Moq;
 using Shared.Common.Models;
+using Common.Models.Services;
 
 
 namespace UnitTests_And_Answers
@@ -29,8 +30,12 @@ namespace UnitTests_And_Answers
             string countryCode = "DE";
             string vatID = "118856456";
             //mocking the client with moq, to keep this as unit-test instead of integration.
-
-            Assert.That(verifier.Verify(countryCode, vatID), Is.EqualTo(VerificationStatus.Valid));
+            VatIdentifierRequest req = new VatIdentifierRequest()
+            {
+                CountryCode = countryCode,
+                VatID = vatID
+            };
+            Assert.That(verifier.Verify(req), Is.EqualTo(VatVerificationStatus.Valid));
         }
         //Test that the countryCode is incorrect in amount of digits - first 1 char, then 3.
         [Test]
@@ -41,31 +46,48 @@ namespace UnitTests_And_Answers
             //mocking the client with moq, to keep this as unit-test instead of integration
 
             var verifier = new VatVerifier(_client.Object);
-
-            Assert.That(verifier.Verify(countryCode, vatID), Is.EqualTo(VerificationStatus.Invalid));
+            VatIdentifierRequest req = new VatIdentifierRequest()
+            {
+                CountryCode = countryCode,
+                VatID = vatID
+            };
+            Assert.That(verifier.Verify(req), Is.EqualTo(VatVerificationStatus.Invalid));
         }
         [Test]
         public void VatVerifier_Country_Code_Too_Long_Is_Correctly_Trimmed()
         {
             string countryCode = "DKK";
             string vatID = "DK118856456";
-
-
-            Assert.That(verifier.Verify(countryCode, vatID), Is.EqualTo(VerificationStatus.Valid));
+            VatIdentifierRequest req = new VatIdentifierRequest()
+            {
+                CountryCode = countryCode,
+                VatID = vatID
+            };
+            Assert.That(verifier.Verify(req), Is.EqualTo(VatVerificationStatus.Valid));
         }
         [Test]
         public void VatVerifier_Wrong_Country_ID_Format()
         {
             string countryCode = "DK";
             string vatID = "_____D___";
-            Assert.That(verifier.Verify(countryCode, vatID), Is.EqualTo(VerificationStatus.Invalid));
+            VatIdentifierRequest req = new VatIdentifierRequest()
+            {
+                CountryCode = countryCode,
+                VatID = vatID
+            };
+            Assert.That(verifier.Verify(req), Is.EqualTo(VatVerificationStatus.Invalid));
         }
         [Test]
         public void VatVerifier_Country_ID_Too_Long_Is_Correctly_Trimmed()
         {
             string countryCode = "DK";
             string vatID = "DK11885645611111111";
-            Assert.That(verifier.Verify(countryCode, vatID), Is.EqualTo(VerificationStatus.Valid));
+            VatIdentifierRequest req = new VatIdentifierRequest()
+            {
+                CountryCode = countryCode,
+                VatID = vatID
+            };
+            Assert.That(verifier.Verify(req), Is.EqualTo(VatVerificationStatus.Valid));
         }
     }
 }
